@@ -231,61 +231,61 @@ function generatePDF($name, $email) {
             .bee-row-6 .bee-col-1 .bee-block-1 .bee-icon-label a {
                 color: #1e0e4b
             }
-	    </style>
-        </head>
-        <body>
-            <div class="bee-page-container">
-                <div class="bee-row bee-row-1">
-                    <div class="bee-row-content">
-                        <div class="bee-col bee-col-1 bee-col-w12">
-                            <div class="bee-block bee-block-1 bee-image"><img alt="" class="bee-center bee-fixedwidth" src="./asset/festival-logo.png" style="max-width:256px;" /></div>
-                        </div>
-                    </div>
-                </div>
-                <div class="bee-row bee-row-2">
-                    <div class="bee-row-content">
-                        <div class="bee-col bee-col-1 bee-col-w12">
-                            <div class="bee-block bee-block-1 bee-heading">
-                                <h1>Veuillez utiliser ces tickets pour manger gratuitement<br />Mr/Mme $name  </h1>
-                                <p>Veuillez trouver ci-joint un QR code pour votre soumission :</p>
-                                <p><img src='".$qrCodePath."' alt='QR Code'></p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="bee-row bee-row-3">
-                    <div class="bee-row-content">
-                        <div class="bee-col bee-col-1 bee-col-w6">
-                            <div class="bee-block bee-block-1 bee-image"><img alt="" class="bee-center bee-autowidth" src="./asset/ticket-festival.jpg" style="max-width:623px;" /></div>
-                        </div>
-                        <div class="bee-col bee-col-2 bee-col-w6">
-                            <div class="bee-block bee-block-1 bee-image"><img alt="" class="bee-center bee-autowidth" src="./asset/ticket-festival.jpg" style="max-width:625px;" /></div>
-                        </div>
-                    </div>
-                </div>
-                <div class="bee-row bee-row-4">
-                    <div class="bee-row-content">
-                        <div class="bee-col bee-col-1 bee-col-w6">
-                            <div class="bee-block bee-block-1 bee-image"><img alt="" class="bee-center bee-autowidth" src="./asset/ticket-festival.jpg" style="max-width:623px;" /></div>
-                        </div>
-                        <div class="bee-col bee-col-2 bee-col-w6">
-                            <div class="bee-block bee-block-1 bee-image"><img alt="" class="bee-center bee-autowidth" src="./asset/ticket-festival.jpg" style="max-width:625px;" /></div>
-                        </div>
-                    </div>
-                </div>
-                <div class="bee-row bee-row-5">
-                    <div class="bee-row-content">
-                        <div class="bee-col bee-col-1 bee-col-w6">
-                            <div class="bee-block bee-block-1 bee-image"><img alt="" class="bee-center bee-autowidth" src="./asset/ticket-festival.jpg" style="max-width:623px;" /></div>
-                        </div>
-                        <div class="bee-col bee-col-2 bee-col-w6">
-                            <div class="bee-block bee-block-1 bee-image"><img alt="" class="bee-center bee-autowidth" src="./asset/ticket-festival.jpg" style="max-width:625px;" /></div>
-                        </div>
-                    </div>
-                </div>
-                
-            </div>
-        </body>
+        </style>
+</head>
+<body>
+	<div class='bee-page-container'>
+		<div class='bee-row bee-row-1'>
+			<div class='bee-row-content'>
+				<div class='bee-col bee-col-1 bee-col-w12'>
+					<div class='bee-block bee-block-1 bee-image'><img alt='' class='bee-center bee-fixedwidth' src='./asset/festival-logo.png' style='max-width:256px;' /></div>
+				</div>
+			</div>
+		</div>
+		<div class='bee-row bee-row-2'>
+			<div class='bee-row-content'>
+				<div class='bee-col bee-col-1 bee-col-w12'>
+					<div class='bee-block bee-block-1 bee-heading'>
+						<h1>Veuillez utiliser ces tickets pour manger gratuitement<br />Mr/Mme .$name.  </h1>
+						<p>Veuillez trouver ci-joint un QR code pour votre soumission :</p>
+						<p><img src=''.$qrCodePath.'' alt='QR Code'></p>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class='bee-row bee-row-3'>
+			<div class='bee-row-content'>
+				<div class='bee-col bee-col-1 bee-col-w6'>
+					<div class='bee-block bee-block-1 bee-image'><img alt='' class='bee-center bee-autowidth' src='./asset/ticket-festival.jpg' style='max-width:623px;' /></div>
+				</div>
+				<div class='bee-col bee-col-2 bee-col-w6'>
+					<div class='bee-block bee-block-1 bee-image'><img alt='' class='bee-center bee-autowidth' src='./asset/ticket-festival.jpg' style='max-width:625px;' /></div>
+				</div>
+			</div>
+		</div>
+		<div class='bee-row bee-row-4'>
+			<div class='bee-row-content'>
+				<div class='bee-col bee-col-1 bee-col-w6'>
+					<div class='bee-block bee-block-1 bee-image'><img alt='' class='bee-center bee-autowidth' src='./asset/ticket-festival.jpg' style='max-width:623px;' /></div>
+				</div>
+				<div class='bee-col bee-col-2 bee-col-w6'>
+					<div class='bee-block bee-block-1 bee-image'><img alt='' class='bee-center bee-autowidth' src='./asset/ticket-festival.jpg' style='max-width:625px;' /></div>
+				</div>
+			</div>
+		</div>
+		<div class='bee-row bee-row-5'>
+			<div class='bee-row-content'>
+				<div class='bee-col bee-col-1 bee-col-w6'>
+					<div class='bee-block bee-block-1 bee-image'><img alt='' class='bee-center bee-autowidth' src='./asset/ticket-festival.jpg' style='max-width:623px;' /></div>
+				</div>
+				<div class='bee-col bee-col-2 bee-col-w6'>
+					<div class='bee-block bee-block-1 bee-image'><img alt='' class='bee-center bee-autowidth' src='./asset/ticket-festival.jpg' style='max-width:625px;' /></div>
+				</div>
+			</div>
+		</div>
+		
+	</div>
+</body>
     ";
 
     // Charger le HTML dans dompdf
