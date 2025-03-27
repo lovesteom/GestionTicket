@@ -28,7 +28,7 @@ function saveToDatabase($name, $email) {
 
 function generatePDF($name, $email) {
     $dompdf = new Dompdf();
-    $qrCodePath = generateQRCode($name, $email);
+    $qrCodePath = generateQRCode( $email, $name);
 
 
     // Contenu HTML pour le PDF
@@ -66,12 +66,12 @@ function generatePDF($name, $email) {
 
 
 
-function generateQRCode($name, $email) {
+function generateQRCode($email, $name) {
     $writer = new PngWriter();
-
+    $url =  __DIR__."/control.php?email=".$email;
 // Create QR code
 $qrCode = new QrCode(
-    data: $email . " " . $name, 
+    data: $url, 
     size: 300,
     margin: 10,
     
@@ -94,7 +94,7 @@ return $file_path;
 function sendEmail($name, $email) {
     $mail = new PHPMailer(true);
     // Générer le QR code et l'ajouter en pièce jointe
-    $qrCodePath = generateQRCode($name, $email);
+    $qrCodePath = generateQRCode( $email, $name);
     try {
         // Configuration du serveur SMTP pour MailDev
         $mail->isSMTP();
