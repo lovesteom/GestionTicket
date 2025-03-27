@@ -17,8 +17,12 @@ function saveToDatabase($name, $email) {
         die("Erreur de connexion : " . $conn->connect_error);
     }
 
-    $stmt = $conn->prepare("INSERT INTO users (name, email) VALUES (?, ?)");
-    $stmt->bind_param("ss", $name, $email);
+    // Définir une valeur par défaut pour nbr_ticket
+    $defaultNbrTicket = 6;
+
+    // Requête d'insertion avec nbr_ticket
+    $stmt = $conn->prepare("INSERT INTO users (name, email, nbr_ticket) VALUES (?, ?, ?)");
+    $stmt->bind_param("ssi", $name, $email, $defaultNbrTicket);
     $success = $stmt->execute();
     $stmt->close();
     $conn->close();
