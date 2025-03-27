@@ -15,10 +15,20 @@ if ($conn->connect_error) {
 $message = ""; // Variable pour stocker le message
 $pre_email = ""; // Variable pour préremplir l'email
 $pre_nbr_ticket = ""; // Variable pour préremplir le nombre de tickets
+$max_tickets = 6; // Valeur par défaut pour limiter les options
 
 // Vérification des paramètres GET pour préremplissage
 if (isset($_GET['email'])) {
     $pre_email = filter_var($_GET['email'], FILTER_SANITIZE_EMAIL);
+
+    // Récupérer le nombre de tickets depuis la base de données pour cet email
+    $sql = "SELECT nbr_ticket FROM users WHERE email = '$pre_email'";
+    $result = $conn->query($sql);
+
+    if ($result && $result->num_rows > 0) {
+        $row = $result->fetch_assoc();
+        $max_tickets = (int)$row['nbr_ticket']; // Limiter les options à nbr_ticket
+    }
 }
 
 if (isset($_GET['nbr_ticket'])) {
@@ -50,6 +60,7 @@ $conn->close();
     <title>Mise à jour des tickets</title>
     <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
     <form method="POST" action="">
         <label for="email">Email :</label>
@@ -58,14 +69,15 @@ $conn->close();
                required>
         <br>
         <label for="nbr_ticket">Nombre de tickets :</label>
-        <select id="nbr_ticket" name="nbr_ticket" required>
+        <select style="padding: 8px; width: 100%; margin-bottom: 10px; border: 1px solid #ccc; border-radius: 4px;" id="nbr_ticket" name="nbr_ticket" required>
             <option value="">Sélectionnez le nombre de tickets</option>
-            <option value="1" <?php echo ($pre_nbr_ticket == 1) ? 'selected' : ''; ?>>1 ticket</option>
-            <option value="2" <?php echo ($pre_nbr_ticket == 2) ? 'selected' : ''; ?>>2 tickets</option>
-            <option value="3" <?php echo ($pre_nbr_ticket == 3) ? 'selected' : ''; ?>>3 tickets</option>
-            <option value="4" <?php echo ($pre_nbr_ticket == 4) ? 'selected' : ''; ?>>4 tickets</option>
-            <option value="5" <?php echo ($pre_nbr_ticket == 5) ? 'selected' : ''; ?>>5 tickets</option>
-            <option value="6" <?php echo ($pre_nbr_ticket == 6) ? 'selected' : ''; ?>>6 tickets</option>
+            <?php
+            // Générer dynamiquement les options en fonction de $max_tickets
+            for ($i = 1; $i < $max_tickets; $i++) {
+                $selected = ($pre_nbr_ticket == $i) ? 'selected' : '';
+                echo "<option value=\"$i\" $selected>$i ticket(s)</option>";
+            }
+            ?>
         </select>
         <br>
         <button type="submit">Mettre à jour</button>
