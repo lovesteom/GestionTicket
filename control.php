@@ -63,6 +63,7 @@ $conn->close();
 
 <body>
     <form method="POST" action="">
+        <h1 style="text-align: center;">Mise à jour des tickets</h1>
         <label for="email">Email :</label>
         <input type="email" id="email" name="email" 
                value="<?php echo htmlspecialchars($pre_email); ?>" 
