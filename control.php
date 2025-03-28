@@ -73,7 +73,7 @@ $conn->close();
             <option value="">Sélectionnez le nombre de tickets</option>
             <?php
             // Générer dynamiquement les options en fonction de $max_tickets
-            for ($i = 1; $i < $max_tickets; $i++) {
+            for ($i = 0; $i < $max_tickets; $i++) {
                 $selected = ($pre_nbr_ticket == $i) ? 'selected' : '';
                 echo "<option value=\"$i\" $selected>$i ticket(s)</option>";
             }

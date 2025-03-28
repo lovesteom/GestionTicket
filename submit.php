@@ -34,7 +34,7 @@ function generatePDF($name, $email) {
     $dompdf = new Dompdf();
     $qrCodePath = generateQRCode( $email, $name);
 
-
+    $path_img ="http://". $_SERVER['SERVER_NAME']."/GestionTicket/file.php?file=".$name.".png";
     // Contenu HTML pour le PDF
     $html = "
         <style>
@@ -232,61 +232,63 @@ function generatePDF($name, $email) {
                 color: #1e0e4b
             }
         </style>
-</head>
-<body>
-	<div class='bee-page-container'>
-		<div class='bee-row bee-row-1'>
-			<div class='bee-row-content'>
-				<div class='bee-col bee-col-1 bee-col-w12'>
-					<div class='bee-block bee-block-1 bee-image'><img alt='' class='bee-center bee-fixedwidth' src='" . __DIR__ . "/asset/festival-logo.png' style='max-width:256px;' /></div>
-				</div>
-			</div>
-		</div>
-		<div class='bee-row bee-row-2'>
-			<div class='bee-row-content'>
-				<div class='bee-col bee-col-1 bee-col-w12'>
-					<div class='bee-block bee-block-1 bee-heading'>
-						<h1>Veuillez utiliser ces tickets pour manger gratuitement<br />Mr/Mme .$name.  </h1>
-						<p>Veuillez trouver ci-joint un QR code pour votre soumission :</p>
-						<p><img src=''.$qrCodePath.'' alt='QR Code'></p>
-					</div>
-				</div>
-			</div>
-		</div>
-		<div class='bee-row bee-row-3'>
-			<div class='bee-ro  w-content'>
-				<div class='bee-col bee-col-1 bee-col-w6'>
-					<div class='bee-block bee-block-1 bee-image'><img alt='' class='bee-center bee-autowidth' src='" . __DIR__ . "/asset/ticket-festival.jpg' style='max-width:623px;' /></div>
-				</div>
-				<div class='bee-col bee-col-2 bee-col-w6'>
-					<div class='bee-block bee-block-1 bee-image'><img alt='' class='bee-center bee-autowidth' src='" . __DIR__ . "/asset/ticket-festival.jpg' style='max-width:625px;' /></div>
-				</div>
-			</div>
-		</div>
-		<div class='bee-row bee-row-4'>
-			<div class='bee-row-content'>
-				<div class='bee-col bee-col-1 bee-col-w6'>
-					<div class='bee-block bee-block-1 bee-image'><img alt='' class='bee-center bee-autowidth' src='" . __DIR__ . "/asset/ticket-festival.jpg' style='max-width:623px;' /></div>
-				</div>
-				<div class='bee-col bee-col-2 bee-col-w6'>
-					<div class='bee-block bee-block-1 bee-image'><img alt='' class='bee-center bee-autowidth' src='" . __DIR__ . "/asset/ticket-festival.jpg' style='max-width:625px;' /></div>
-				</div>
-			</div>
-		</div>
-		<div class='bee-row bee-row-5'>
-			<div class='bee-row-content'>
-				<div class='bee-col bee-col-1 bee-col-w6'>
-					<div class='bee-block bee-block-1 bee-image'><img alt='' class='bee-center bee-autowidth' src='" . __DIR__ . "/asset/ticket-festival.jpg' style='max-width:623px;' /></div>
-				</div>
-				<div class='bee-col bee-col-2 bee-col-w6'>
-					<div class='bee-block bee-block-1 bee-image'><img alt='' class='bee-center bee-autowidth' src='" . __DIR__ . "/asset/ticket-festival.jpg' style='max-width:625px;' /></div>
-				</div>
-			</div>
-		</div>
-		
-	</div>
-</body>
-    ";
+        </head>
+        <body>
+            <div class='bee-page-container'>
+                <div class='bee-row bee-row-1'>
+                    <div class='bee-row-content'>
+                        <div class='bee-col bee-col-1 bee-col-w12'>
+                            <div class='bee-block bee-block-1 bee-image'><img alt='' class='bee-center bee-fixedwidth' src='https://festival-nouvellejerusalem-save.bj/wp-content/uploads/2025/01/festival-logo.png' style='max-width:156px; texte-align:center !important;' /></div>
+                        </div>
+                    </div>
+                </div>
+                <div class='bee-row bee-row-2'>
+                    <div class='bee-row-content'>
+                        <div class='bee-col bee-col-1 bee-col-w12'>
+                            <div class='bee-block bee-block-1 bee-heading'>
+                                <h1>Veuillez utiliser ces tickets pour manger gratuitement<br />Mr/Mme $name  </h1>
+                                <p>Veuillez trouver ci-joint un QR code pour votre soumission :</p>
+
+                                <p><img src='$path_img' alt='QR Code'></p>
+                               
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class='bee-row bee-row-3'>
+                    <div class='bee-ro  w-content'>
+                        <div class='bee-col bee-col-1 bee-col-w6'>
+                            <div class='bee-block bee-block-1 bee-image'><img alt='' class='bee-center bee-autowidth' src='https://festival-nouvellejerusalem-save.bj/wp-content/uploads/2025/03/ticket-festival.jpg' style='max-width:200px;' /></div>
+                        </div>
+                        <div class='bee-col bee-col-2 bee-col-w6'>
+                            <div class='bee-block bee-block-1 bee-image'><img alt='' class='bee-center bee-autowidth' src='https://festival-nouvellejerusalem-save.bj/wp-content/uploads/2025/03/ticket-festival.jpg' style='max-width:200px;' /></div>
+                        </div>
+                    </div>
+                </div>
+                <div class='bee-row bee-row-4'>
+                    <div class='bee-row-content'>
+                        <div class='bee-col bee-col-1 bee-col-w6'>
+                            <div class='bee-block bee-block-1 bee-image'><img alt='' class='bee-center bee-autowidth' src='https://festival-nouvellejerusalem-save.bj/wp-content/uploads/2025/03/ticket-festival.jpg' style='max-width:200px;' /></div>
+                        </div>
+                        <div class='bee-col bee-col-2 bee-col-w6'>
+                            <div class='bee-block bee-block-1 bee-image'><img alt='' class='bee-center bee-autowidth' src='https://festival-nouvellejerusalem-save.bj/wp-content/uploads/2025/03/ticket-festival.jpg' style='max-width:200px;' /></div>
+                        </div>
+                    </div>
+                </div>
+                <div class='bee-row bee-row-5'>
+                    <div class='bee-row-content'>
+                        <div class='bee-col bee-col-1 bee-col-w6'>
+                            <div class='bee-block bee-block-1 bee-image'><img alt='' class='bee-center bee-autowidth' src='https://festival-nouvellejerusalem-save.bj/wp-content/uploads/2025/03/ticket-festival.jpg' style='max-width:200px;' /></div>
+                        </div>
+                        <div class='bee-col bee-col-2 bee-col-w6'>
+                            <div class='bee-block bee-block-1 bee-image'><img alt='' class='bee-center bee-autowidth' src='https://festival-nouvellejerusalem-save.bj/wp-content/uploads/2025/03/ticket-festival.jpg' style='max-width:200px;' /></div>
+                        </div>
+                    </div>
+                </div>
+                
+            </div>
+        </body>
+            ";
 
     // Charger le HTML dans dompdf
     $dompdf->loadHtml($html);
