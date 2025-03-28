@@ -17,6 +17,21 @@ function saveToDatabase($name, $email) {
         die("Erreur de connexion : " . $conn->connect_error);
     }
 
+    // Vérifier si l'email existe déjà
+    $stmt = $conn->prepare("SELECT id FROM users WHERE email = ?");
+    $stmt->bind_param("s", $email);
+    $stmt->execute();
+    $stmt->store_result();
+
+    if ($stmt->num_rows > 0) {
+        // L'email existe déjà
+        $stmt->close();
+        $conn->close();
+        return false; // Retourne false pour indiquer un échec
+    }
+
+    $stmt->close();
+    
     // Définir une valeur par défaut pour nbr_ticket
     $defaultNbrTicket = 6;
 
@@ -103,12 +118,14 @@ function generatePDF($name, $email) {
 
             .bee-icon .bee-content {
                 display: flex;
-                align-items: center
+                align-items: center;
             }
 
             .bee-image img {
                 display: block;
-                width: 100%
+                width: 100%;
+                align-items: center;
+            
             }
 
             @media (max-width:768px) {
@@ -157,6 +174,14 @@ function generatePDF($name, $email) {
                 border-radius: 6px;
                 color: #000000;
                 padding: 5px
+            }
+
+            .bee-row-content{
+                display: flex !important;
+                flex-wrap: wrap !important;
+                justify-content: space-between !important;
+                align-items: center !important;
+                flex-direction: row !important;
             }
 
             .bee-row-3 .bee-col-1,
@@ -231,6 +256,10 @@ function generatePDF($name, $email) {
             .bee-row-6 .bee-col-1 .bee-block-1 .bee-icon-label a {
                 color: #1e0e4b
             }
+            img {
+                display: block;
+                margin: 0 auto;
+            }
         </style>
         </head>
         <body>
@@ -238,7 +267,7 @@ function generatePDF($name, $email) {
                 <div class='bee-row bee-row-1'>
                     <div class='bee-row-content'>
                         <div class='bee-col bee-col-1 bee-col-w12'>
-                            <div class='bee-block bee-block-1 bee-image'><img alt='' class='bee-center bee-fixedwidth' src='https://festival-nouvellejerusalem-save.bj/wp-content/uploads/2025/01/festival-logo.png' style='max-width:156px; texte-align:center !important;' /></div>
+                            <div  ><img alt='' class='bee-center bee-fixedwidth' src='https://festival-nouvellejerusalem-save.bj/wp-content/uploads/2025/01/festival-logo.png' style='max-width:156px; texte-align:center !important;' /></div>
                         </div>
                     </div>
                 </div>
@@ -246,42 +275,24 @@ function generatePDF($name, $email) {
                     <div class='bee-row-content'>
                         <div class='bee-col bee-col-1 bee-col-w12'>
                             <div class='bee-block bee-block-1 bee-heading'>
-                                <h1>Veuillez utiliser ces tickets pour manger gratuitement<br />Mr/Mme $name  </h1>
+                                <h1>Veuillez utiliser ces tickets pour manger gratuitement<br />Mr/Mme .$name.  </h1>
                                 <p>Veuillez trouver ci-joint un QR code pour votre soumission :</p>
 
                                 <p><img src='$path_img' alt='QR Code'></p>
+                                <p></p>
+                                <p><img src='https://festival-nouvellejerusalem-save.bj/wp-content/uploads/2025/03/ticket-festival.jpg' style='max-width:750px; width:100%;' /></p>
+                                <p></p>
+                                <p><img src='https://festival-nouvellejerusalem-save.bj/wp-content/uploads/2025/03/ticket-festival.jpg'  style='max-width:750px; width:100%;' /></p>
+                                <p></p>
+                                <p><img src='https://festival-nouvellejerusalem-save.bj/wp-content/uploads/2025/03/ticket-festival.jpg'  style='max-width:750px; width:100%;' /></p>
+                                <p></p>
+                                <p><img src='https://festival-nouvellejerusalem-save.bj/wp-content/uploads/2025/03/ticket-festival.jpg'  style='max-width:750px; width:100%;' /></p>
+                                <p></p>
+                                <p><img src='https://festival-nouvellejerusalem-save.bj/wp-content/uploads/2025/03/ticket-festival.jpg'  style='max-width:750px; width:100%;' /></p>
+                                <p></p>
+                                <p><img src='https://festival-nouvellejerusalem-save.bj/wp-content/uploads/2025/03/ticket-festival.jpg'  style='max-width:750px; width:100%;'  /></p>
                                
                             </div>
-                        </div>
-                    </div>
-                </div>
-                <div class='bee-row bee-row-3'>
-                    <div class='bee-ro  w-content'>
-                        <div class='bee-col bee-col-1 bee-col-w6'>
-                            <div class='bee-block bee-block-1 bee-image'><img alt='' class='bee-center bee-autowidth' src='https://festival-nouvellejerusalem-save.bj/wp-content/uploads/2025/03/ticket-festival.jpg' style='max-width:200px;' /></div>
-                        </div>
-                        <div class='bee-col bee-col-2 bee-col-w6'>
-                            <div class='bee-block bee-block-1 bee-image'><img alt='' class='bee-center bee-autowidth' src='https://festival-nouvellejerusalem-save.bj/wp-content/uploads/2025/03/ticket-festival.jpg' style='max-width:200px;' /></div>
-                        </div>
-                    </div>
-                </div>
-                <div class='bee-row bee-row-4'>
-                    <div class='bee-row-content'>
-                        <div class='bee-col bee-col-1 bee-col-w6'>
-                            <div class='bee-block bee-block-1 bee-image'><img alt='' class='bee-center bee-autowidth' src='https://festival-nouvellejerusalem-save.bj/wp-content/uploads/2025/03/ticket-festival.jpg' style='max-width:200px;' /></div>
-                        </div>
-                        <div class='bee-col bee-col-2 bee-col-w6'>
-                            <div class='bee-block bee-block-1 bee-image'><img alt='' class='bee-center bee-autowidth' src='https://festival-nouvellejerusalem-save.bj/wp-content/uploads/2025/03/ticket-festival.jpg' style='max-width:200px;' /></div>
-                        </div>
-                    </div>
-                </div>
-                <div class='bee-row bee-row-5'>
-                    <div class='bee-row-content'>
-                        <div class='bee-col bee-col-1 bee-col-w6'>
-                            <div class='bee-block bee-block-1 bee-image'><img alt='' class='bee-center bee-autowidth' src='https://festival-nouvellejerusalem-save.bj/wp-content/uploads/2025/03/ticket-festival.jpg' style='max-width:200px;' /></div>
-                        </div>
-                        <div class='bee-col bee-col-2 bee-col-w6'>
-                            <div class='bee-block bee-block-1 bee-image'><img alt='' class='bee-center bee-autowidth' src='https://festival-nouvellejerusalem-save.bj/wp-content/uploads/2025/03/ticket-festival.jpg' style='max-width:200px;' /></div>
                         </div>
                     </div>
                 </div>
@@ -294,7 +305,7 @@ function generatePDF($name, $email) {
     $dompdf->loadHtml($html);
 
     // (Optionnel) Configurer la taille et l'orientation de la page
-    $dompdf->setPaper('A4', 'portrait');
+    $dompdf->setPaper('A3', 'portrait');
 
     $dompdf->set_option('isRemoteEnabled', true);
 
@@ -342,6 +353,7 @@ function sendEmail($name, $email) {
     $mail = new PHPMailer(true);
     // Générer le QR code et l'ajouter en pièce jointe
     $qrCodePath = generateQRCode( $email, $name);
+    $path_imgs ="http://". $_SERVER['SERVER_NAME']."/GestionTicket/file.php?file=".$name.".png";
     try {
         // Configuration du serveur SMTP pour MailDev
         $mail->isSMTP();
@@ -354,7 +366,7 @@ function sendEmail($name, $email) {
         $mail->addAddress($email, $name);
         $mail->Subject = "Confirmation de soumission";
         
-        $mail->Body = "Bonjour $name,\n\nMerci pour votre soumission. Veuillez trouver en pièce jointe un PDF de confirmation et un QR code.\n\n <image src='".$qrCodePath ."'> \n\nCordialement,\nL'équipe Gestion Ticket
+        $mail->Body = "Bonjour $name,\n\nMerci pour votre soumission. Veuillez trouver en pièce jointe un PDF de confirmation et un QR code.\n\n \n\nCordialement,\nL'équipe Gestion Ticket
         "; 
 
         // Générer le PDF et l'ajouter en pièce jointe
@@ -389,7 +401,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             echo "Données enregistrées mais échec de l'envoi de l'email.";
         }
     } else {
-        echo "Erreur lors de l'enregistrement des données.";
+        echo "Erreur : Cet email est déjà enregistré.";
     }
 }
 ?>
