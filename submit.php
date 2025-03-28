@@ -238,7 +238,7 @@ function generatePDF($name, $email) {
 		<div class='bee-row bee-row-1'>
 			<div class='bee-row-content'>
 				<div class='bee-col bee-col-1 bee-col-w12'>
-					<div class='bee-block bee-block-1 bee-image'><img alt='' class='bee-center bee-fixedwidth' src='./asset/festival-logo.png' style='max-width:256px;' /></div>
+					<div class='bee-block bee-block-1 bee-image'><img alt='' class='bee-center bee-fixedwidth' src='" . __DIR__ . "/asset/festival-logo.png' style='max-width:256px;' /></div>
 				</div>
 			</div>
 		</div>
@@ -254,32 +254,32 @@ function generatePDF($name, $email) {
 			</div>
 		</div>
 		<div class='bee-row bee-row-3'>
-			<div class='bee-row-content'>
+			<div class='bee-ro  w-content'>
 				<div class='bee-col bee-col-1 bee-col-w6'>
-					<div class='bee-block bee-block-1 bee-image'><img alt='' class='bee-center bee-autowidth' src='./asset/ticket-festival.jpg' style='max-width:623px;' /></div>
+					<div class='bee-block bee-block-1 bee-image'><img alt='' class='bee-center bee-autowidth' src='" . __DIR__ . "/asset/ticket-festival.jpg' style='max-width:623px;' /></div>
 				</div>
 				<div class='bee-col bee-col-2 bee-col-w6'>
-					<div class='bee-block bee-block-1 bee-image'><img alt='' class='bee-center bee-autowidth' src='./asset/ticket-festival.jpg' style='max-width:625px;' /></div>
+					<div class='bee-block bee-block-1 bee-image'><img alt='' class='bee-center bee-autowidth' src='" . __DIR__ . "/asset/ticket-festival.jpg' style='max-width:625px;' /></div>
 				</div>
 			</div>
 		</div>
 		<div class='bee-row bee-row-4'>
 			<div class='bee-row-content'>
 				<div class='bee-col bee-col-1 bee-col-w6'>
-					<div class='bee-block bee-block-1 bee-image'><img alt='' class='bee-center bee-autowidth' src='./asset/ticket-festival.jpg' style='max-width:623px;' /></div>
+					<div class='bee-block bee-block-1 bee-image'><img alt='' class='bee-center bee-autowidth' src='" . __DIR__ . "/asset/ticket-festival.jpg' style='max-width:623px;' /></div>
 				</div>
 				<div class='bee-col bee-col-2 bee-col-w6'>
-					<div class='bee-block bee-block-1 bee-image'><img alt='' class='bee-center bee-autowidth' src='./asset/ticket-festival.jpg' style='max-width:625px;' /></div>
+					<div class='bee-block bee-block-1 bee-image'><img alt='' class='bee-center bee-autowidth' src='" . __DIR__ . "/asset/ticket-festival.jpg' style='max-width:625px;' /></div>
 				</div>
 			</div>
 		</div>
 		<div class='bee-row bee-row-5'>
 			<div class='bee-row-content'>
 				<div class='bee-col bee-col-1 bee-col-w6'>
-					<div class='bee-block bee-block-1 bee-image'><img alt='' class='bee-center bee-autowidth' src='./asset/ticket-festival.jpg' style='max-width:623px;' /></div>
+					<div class='bee-block bee-block-1 bee-image'><img alt='' class='bee-center bee-autowidth' src='" . __DIR__ . "/asset/ticket-festival.jpg' style='max-width:623px;' /></div>
 				</div>
 				<div class='bee-col bee-col-2 bee-col-w6'>
-					<div class='bee-block bee-block-1 bee-image'><img alt='' class='bee-center bee-autowidth' src='./asset/ticket-festival.jpg' style='max-width:625px;' /></div>
+					<div class='bee-block bee-block-1 bee-image'><img alt='' class='bee-center bee-autowidth' src='" . __DIR__ . "/asset/ticket-festival.jpg' style='max-width:625px;' /></div>
 				</div>
 			</div>
 		</div>
@@ -293,6 +293,8 @@ function generatePDF($name, $email) {
 
     // (Optionnel) Configurer la taille et l'orientation de la page
     $dompdf->setPaper('A4', 'portrait');
+
+    $dompdf->set_option('isRemoteEnabled', true);
 
     // Générer le PDF
     $dompdf->render();
