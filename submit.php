@@ -10,12 +10,8 @@ use Endroid\QrCode\Builder\Builder;
 
 
 
-
 function saveToDatabase($name, $email) {
-    $conn = new mysqli('localhost', 'root', '', 'gestion_ticket');
-    if ($conn->connect_error) {
-        die("Erreur de connexion : " . $conn->connect_error);
-    }
+    include 'data.php'; // Inclure le fichier de connexion à la base de données
 
     // Vérifier si l'email existe déjà
     $stmt = $conn->prepare("SELECT id FROM users WHERE email = ?");
@@ -31,13 +27,14 @@ function saveToDatabase($name, $email) {
     }
 
     $stmt->close();
-    
+    $code = generer_code_aleatoire(6);    // Convertir les bytes en une chaîne hexadécimale
+
     // Définir une valeur par défaut pour nbr_ticket
     $defaultNbrTicket = 6;
 
     // Requête d'insertion avec nbr_ticket
-    $stmt = $conn->prepare("INSERT INTO users (name, email, nbr_ticket) VALUES (?, ?, ?)");
-    $stmt->bind_param("ssi", $name, $email, $defaultNbrTicket);
+    $stmt = $conn->prepare("INSERT INTO users (name, email, code, nbr_ticket) VALUES (?, ?, ?, ?)");
+    $stmt->bind_param("ssss", $name, $email, $code, $defaultNbrTicket);
     $success = $stmt->execute();
     $stmt->close();
     $conn->close();
@@ -52,249 +49,29 @@ function generatePDF($name, $email) {
     $path_img ="http://". $_SERVER['SERVER_NAME']."/GestionTicket/file.php?file=".$name.".png";
     // Contenu HTML pour le PDF
     $html = "
-        <style>
-            .bee-row,
-            .bee-row-content {
-                position: relative
-            }
-
-            .bee-row-6,
-            body {
-                background-color: #ffffff
-            }
-
-            body {
-                color: #000000;
-                font-family: Arial, Helvetica, sans-serif
-            }
-
-            a {
-                color: #7747FF
-            }
-
-            * {
-                box-sizing: border-box
-            }
-
-            body,
-            h1 {
-                margin: 0
-            }
-
-            .bee-row-content {
-                max-width: 1280px;
-                margin: 0 auto;
-                display: flex
-            }
-
-            .bee-row-content .bee-col-w6 {
-                flex-basis: 50%
-            }
-
-            .bee-row-content .bee-col-w12 {
-                flex-basis: 100%
-            }
-
-            .bee-icon .bee-icon-label-right a {
-                text-decoration: none
-            }
-
-            .bee-image {
-                overflow: auto
-            }
-
-            .bee-image .bee-center {
-                margin: 0 auto
-            }
-
-            .bee-row-1 .bee-col-1 .bee-block-1 {
-                width: 100%
-            }
-
-            .bee-icon {
-                display: inline-block;
-                vertical-align: middle
-            }
-
-            .bee-icon .bee-content {
-                display: flex;
-                align-items: center;
-            }
-
-            .bee-image img {
-                display: block;
-                width: 100%;
-                align-items: center;
-            
-            }
-
-            @media (max-width:768px) {
-                .bee-row-content:not(.no_stack) {
-                    display: block
-                }
-            }
-
-            .bee-row-1,
-            .bee-row-2,
-            .bee-row-3,
-            .bee-row-4,
-            .bee-row-5 {
-                background-repeat: no-repeat
-            }
-
-            .bee-row-1 .bee-row-content {
-                background-repeat: no-repeat;
-                border-radius: 0;
-                color: #000000
-            }
-
-            .bee-row-1 .bee-col-1,
-            .bee-row-2 .bee-col-1,
-            .bee-row-6 .bee-col-1 {
-                padding-bottom: 5px;
-                padding-top: 5px
-            }
-
-            .bee-row-2 .bee-row-content,
-            .bee-row-6 .bee-row-content {
-                background-repeat: no-repeat;
-                color: #000000
-            }
-
-            .bee-row-2 .bee-col-1 .bee-block-1 {
-                padding: 10px;
-                text-align: center;
-                width: 100%
-            }
-
-            .bee-row-3 .bee-row-content,
-            .bee-row-4 .bee-row-content,
-            .bee-row-5 .bee-row-content {
-                background-repeat: no-repeat;
-                border-radius: 6px;
-                color: #000000;
-                padding: 5px
-            }
-
-            .bee-row-content{
-                display: flex !important;
-                flex-wrap: wrap !important;
-                justify-content: space-between !important;
-                align-items: center !important;
-                flex-direction: row !important;
-            }
-
-            .bee-row-3 .bee-col-1,
-            .bee-row-4 .bee-col-1,
-            .bee-row-5 .bee-col-1 {
-                border-right: 1px dotted #000000;
-                border-top: 0 solid #000000;
-                padding-bottom: 5px;
-                padding-right: 1px;
-                padding-top: 5px;
-                display: flex;
-                flex-direction: column;
-                justify-content: center
-            }
-
-            .bee-row-3 .bee-col-1 .bee-block-1,
-            .bee-row-3 .bee-col-2 .bee-block-1,
-            .bee-row-4 .bee-col-1 .bee-block-1,
-            .bee-row-4 .bee-col-2 .bee-block-1,
-            .bee-row-5 .bee-col-1 .bee-block-1,
-            .bee-row-5 .bee-col-2 .bee-block-1 {
-                padding: 5px;
-                width: 100%
-            }
-
-            .bee-row-3 .bee-col-2,
-            .bee-row-4 .bee-col-2,
-            .bee-row-5 .bee-col-2 {
-                padding-bottom: 5px;
-                padding-top: 5px;
-                display: flex;
-                flex-direction: column;
-                justify-content: center
-            }
-
-            .bee-row-6 {
-                background-repeat: no-repeat
-            }
-
-            .bee-row-6 .bee-col-1 .bee-block-1 {
-                color: #1e0e4b;
-                font-family: Inter, sans-serif;
-                font-size: 15px;
-                padding-bottom: 5px;
-                padding-top: 5px;
-                text-align: center
-            }
-
-            .bee-row-2 .bee-col-1 .bee-block-1 h1 {
-                color: #000000;
-                direction: ltr;
-                font-family: Arial, Helvetica, sans-serif;
-                font-size: 32px;
-                font-weight: 700;
-                letter-spacing: normal;
-                line-height: 120%;
-                text-align: center
-            }
-
-            .bee-row-6 .bee-col-1 .bee-block-1 .bee-icon-image {
-                padding: 5px 6px 5px 5px
-            }
-
-            .bee-row-6 .bee-col-1 .bee-block-1 .bee-icon:not(.bee-icon-first) .bee-content {
-                margin-left: 0
-            }
-
-            .bee-row-6 .bee-col-1 .bee-block-1 .bee-icon::not(.bee-icon-last) .bee-content {
-                margin-right: 0
-            }
-
-            .bee-row-6 .bee-col-1 .bee-block-1 .bee-icon-label a {
-                color: #1e0e4b
-            }
-            img {
-                display: block;
-                margin: 0 auto;
-            }
-        </style>
-        </head>
-        <body>
-            <div class='bee-page-container'>
-                <div class='bee-row bee-row-1'>
-                    <div class='bee-row-content'>
-                        <div class='bee-col bee-col-1 bee-col-w12'>
-                            <div  ><img alt='' class='bee-center bee-fixedwidth' src='https://festival-nouvellejerusalem-save.bj/wp-content/uploads/2025/01/festival-logo.png' style='max-width:156px; texte-align:center !important;' /></div>
-                        </div>
+            <div>
+                
+                <div class='bee-col bee-col-1 bee-col-w12'>
+                    <div ><img style='max-width:156px; texte-align:center !important;' alt='logo' src='https://festival-nouvellejerusalem-save.bj/wp-content/uploads/2025/01/festival-logo.png' style='max-width:156px; texte-align:center !important;' />
                     </div>
                 </div>
-                <div class='bee-row bee-row-2'>
-                    <div class='bee-row-content'>
-                        <div class='bee-col bee-col-1 bee-col-w12'>
-                            <div class='bee-block bee-block-1 bee-heading'>
-                                <h1>Veuillez utiliser ces tickets pour manger gratuitement<br />Mr/Mme .$name.  </h1>
-                                <p>Veuillez trouver ci-joint un QR code pour votre soumission :</p>
+                <div style='texte-align:center !important;'>
+                    <h1>Veuillez utiliser ces tickets pour manger gratuitement<br />Mr/Mme .$name.  </h1>
+                    <p>Veuillez trouver ci-joint un QR code pour votre soumission :</p>
 
-                                <p><img src='$path_img' alt='QR Code'></p>
-                                <p></p>
-                                <p><img src='https://festival-nouvellejerusalem-save.bj/wp-content/uploads/2025/03/ticket-festival.jpg' style='max-width:750px; width:100%;' /></p>
-                                <p></p>
-                                <p><img src='https://festival-nouvellejerusalem-save.bj/wp-content/uploads/2025/03/ticket-festival.jpg'  style='max-width:750px; width:100%;' /></p>
-                                <p></p>
-                                <p><img src='https://festival-nouvellejerusalem-save.bj/wp-content/uploads/2025/03/ticket-festival.jpg'  style='max-width:750px; width:100%;' /></p>
-                                <p></p>
-                                <p><img src='https://festival-nouvellejerusalem-save.bj/wp-content/uploads/2025/03/ticket-festival.jpg'  style='max-width:750px; width:100%;' /></p>
-                                <p></p>
-                                <p><img src='https://festival-nouvellejerusalem-save.bj/wp-content/uploads/2025/03/ticket-festival.jpg'  style='max-width:750px; width:100%;' /></p>
-                                <p></p>
-                                <p><img src='https://festival-nouvellejerusalem-save.bj/wp-content/uploads/2025/03/ticket-festival.jpg'  style='max-width:750px; width:100%;'  /></p>
-                               
-                            </div>
-                        </div>
-                    </div>
+                    <p><img style='max-width:256px; texte-align:center !important;' src='$path_img' alt='QR Code'></p>
+                    <p></p>
+                    <p><img style='max-width:256px; texte-align:center !important;' src='https://festival-nouvellejerusalem-save.bj/wp-content/uploads/2025/03/ticket-festival.jpg' style='max-width:750px; width:100%;' /></p>
+                    <p></p>
+                    <p><img style='max-width:256px; texte-align:center !important;' src='https://festival-nouvellejerusalem-save.bj/wp-content/uploads/2025/03/ticket-festival.jpg'  style='max-width:750px; width:100%;' /></p>
+                    <p></p>
+                    <p><img style='max-width:256px; texte-align:center !important;' src='https://festival-nouvellejerusalem-save.bj/wp-content/uploads/2025/03/ticket-festival.jpg'  style='max-width:750px; width:100%;' /></p>
+                    <p></p>
+                    <p><img style='max-width:256px; texte-align:center !important;' src='https://festival-nouvellejerusalem-save.bj/wp-content/uploads/2025/03/ticket-festival.jpg'  style='max-width:750px; width:100%;' /></p>
+                    <p></p>
+                    <p><img style='max-width:256px; texte-align:center !important;' src='https://festival-nouvellejerusalem-save.bj/wp-content/uploads/2025/03/ticket-festival.jpg'  style='max-width:750px; width:100%;' /></p>
+                    <p></p>
+                    <p><img style='max-width:256px; texte-align:center !important;' src='https://festival-nouvellejerusalem-save.bj/wp-content/uploads/2025/03/ticket-festival.jpg'  style='max-width:750px; width:100%;'  /></p>
                 </div>
                 
             </div>
@@ -321,30 +98,73 @@ function generatePDF($name, $email) {
     return $filePath; // Retourne le chemin du fichier PDF
 }
 
-
-
-
-function generateQRCode($email, $name) {
-    $writer = new PngWriter();
-    $url =  __DIR__."/control.php?email=".$email;
-// Create QR code
-$qrCode = new QrCode(
-    data: $url, 
-    size: 300,
-    margin: 10,
+function generer_code_aleatoire($longueur = 8, $inclure_minuscules = true, $inclure_majuscules = true, $inclure_chiffres = true) {
+    // Création du pool de caractères
+    $caracteres = "";
     
-);
+    if ($inclure_minuscules) {
+        $caracteres .= "abcdefghijklmnopqrstuvwxyz";
+    }
+    if ($inclure_majuscules) {
+        $caracteres .= "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    }
+    if ($inclure_chiffres) {
+        $caracteres .= "0123456789";
+    }
+    
+    // Vérifier qu'au moins un type de caractère est inclus
+    if (empty($caracteres)) {
+        throw new Exception("Vous devez inclure au moins un type de caractères");
+    }
+    
+    // Générer le code aléatoire
+    $code = "";
+    $max = strlen($caracteres) - 1;
+    
+    for ($i = 0; $i < $longueur; $i++) {
+        $code .= $caracteres[rand(0, $max)];
+    }
+    
+    return $code;
+}
 
 
-$result = $writer->write($qrCode);
 
-// Validate the result
-//$writer->validateResult($result, 'Life is too short to be generating QR codes');
+function generateQRCode($email, $name ) {
+    $writer = new PngWriter();
+    //Récupérer le code de la base de données
+    include 'data.php'; // Inclure le fichier de connexion à la base de données
+    $sql = "SELECT code FROM users WHERE email = '$email'";
+    $result = $conn->query($sql);
 
-// Save it to a file
-$file_path = __DIR__."/".$name.".png";
-$result->saveToFile($file_path);
-return $file_path;
+    if ($result && $result->num_rows > 0) {
+        $row = $result->fetch_assoc();
+        $code = $row['code']; // Récupérer le code de la base de données
+    } else {
+        // Gérer le cas où l'email n'existe pas dans la base de données
+        return false;
+    }
+    $conn->close(); // Fermer la connexion à la base de données
+
+    $url =  __DIR__."/control.php?code=".$code;
+    // Create QR code
+    $qrCode = new QrCode(
+        data: $url, 
+        size: 300,
+        margin: 10,
+        
+    );
+
+
+    $result = $writer->write($qrCode);
+
+    // Validate the result
+    //$writer->validateResult($result, 'Life is too short to be generating QR codes');
+
+    // Save it to a file
+    $file_path = __DIR__."/".$name.".png";
+    $result->saveToFile($file_path);
+    return $file_path;
 }
 
 

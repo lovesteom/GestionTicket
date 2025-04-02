@@ -1,21 +1,18 @@
 <?php
-// Connexion à la base de données
-$servername = "localhost";
-$username = "root";
-$password = "";
-$dbname = "gestion_ticket";
-
-$conn = new mysqli($servername, $username, $password, $dbname);
-
-// Vérifier la connexion
-if ($conn->connect_error) {
-    die("Échec de la connexion : " . $conn->connect_error);
-}
-
+include 'data.php'; // Inclure le fichier de connexion à la base de données
 $message = ""; // Variable pour stocker le message
 $pre_email = ""; // Variable pour préremplir l'email
 $pre_nbr_ticket = ""; // Variable pour préremplir le nombre de tickets
 $max_tickets = 6; // Valeur par défaut pour limiter les options
+
+
+//Une Session de connexion obligatoire d'utilisation de la page avec un email et un mot de passe avec localsession
+/* session_start();
+if (!isset($_SESSION['email']) || !isset($_SESSION['password'])) {
+    header("Location: login.php"); // Rediriger vers la page de connexion si non connecté
+    exit();
+}   */ 
+
 
 // Vérification des paramètres GET pour préremplissage
 if (isset($_GET['email'])) {
@@ -62,6 +59,8 @@ $conn->close();
 </head>
 
 <body>
+
+
     <form method="POST" action="">
         <h1 style="text-align: center;">Mise à jour des tickets</h1>
         <label for="email">Email :</label>
