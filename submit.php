@@ -133,7 +133,7 @@ function generer_code_aleatoire($longueur = 8, $inclure_minuscules = true, $incl
 function generateQRCode($email, $name ) {
     $writer = new PngWriter();
     //Récupérer le code de la base de données
-    include 'data.php'; // Inclure le fichier de connexion à la base de données
+    include './env/data.php'; // Inclure le fichier de connexion à la base de données
     $sql = "SELECT code FROM users WHERE email = '$email'";
     $result = $conn->query($sql);
 
@@ -210,7 +210,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     if (saveToDatabase($name, $email)) {
         if (sendEmail($name, $email)) {
-            echo "Données enregistrées et email envoyé.";
+            echo "<h1>Votre présence vient d'être confirmée. Un email a été envoyé dans votre boite de reception.</h1>";
         } else {
             echo "Données enregistrées mais échec de l'envoi de l'email.";
         }

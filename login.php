@@ -38,8 +38,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             // Ajouter un script JavaScript pour enregistrer dans le localStorage
             echo "<script>
+           
                 localStorage.setItem('is_loginf', 'true');
-                window.location.href = 'control.php';
+               if (localStorage.getItem('is_loginf') === 'true') {
+                    window.location.href = 'control.php';
+                
+                }
+        
             </script>";
 
             exit();
@@ -66,8 +71,8 @@ $conn->close();
     <script>
         // Vérifier si "is_loginf" dans le localStorage est défini sur "true"
         if (localStorage.getItem('is_loginf') === 'true') {
-            // Rediriger vers la page de connexion si l'utilisateur n'est pas connecté
-            window.location.href = 'control.php';
+          
+            window.location.href = 'control.php';// Rediriger vers la page d'accueil
         }
     </script>
 </head>
