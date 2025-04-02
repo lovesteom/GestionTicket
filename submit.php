@@ -11,7 +11,7 @@ use Endroid\QrCode\Builder\Builder;
 
 
 function saveToDatabase($name, $email) {
-    include 'data.php'; // Inclure le fichier de connexion à la base de données
+    include './env/data.php'; // Inclure le fichier de connexion à la base de données
 
     // Vérifier si l'email existe déjà
     $stmt = $conn->prepare("SELECT id FROM users WHERE email = ?");
@@ -176,13 +176,7 @@ function sendEmail($name, $email) {
     $path_imgs ="http://". $_SERVER['SERVER_NAME']."/GestionTicket/file.php?file=".$name.".png";
     try {
         // Configuration du serveur SMTP pour MailDev
-        $mail->isSMTP();
-        $mail->Host = 'localhost'; // MailDev écoute sur localhost
-        $mail->SMTPAuth = false; // Pas d'authentification nécessaire pour MailDev
-        $mail->Port = 1025; // Port par défaut de MailDev
-
-        // Configuration de l'email
-        $mail->setFrom('no-reply@gestionticket.com', 'Gestion Ticket');
+        include './env/config_mail.php'; // Inclure le fichier de configuration de l'email
         $mail->addAddress($email, $name);
         $mail->Subject = "Confirmation de soumission";
         

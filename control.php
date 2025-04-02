@@ -1,17 +1,12 @@
 <?php
-include 'data.php'; // Inclure le fichier de connexion à la base de données
+include './env/data.php'; // Inclure le fichier de connexion à la base de données
 $message = ""; // Variable pour stocker le message
 $pre_email = ""; // Variable pour préremplir l'email
 $pre_nbr_ticket = ""; // Variable pour préremplir le nombre de tickets
 $max_tickets = 6; // Valeur par défaut pour limiter les options
 
 
-//Une Session de connexion obligatoire d'utilisation de la page avec un email et un mot de passe avec localsession
-/* session_start();
-if (!isset($_SESSION['email']) || !isset($_SESSION['password'])) {
-    header("Location: login.php"); // Rediriger vers la page de connexion si non connecté
-    exit();
-}   */ 
+
 
 
 // Vérification des paramètres GET pour préremplissage
@@ -56,6 +51,13 @@ $conn->close();
     <meta charset="UTF-8">
     <title>Mise à jour des tickets</title>
     <link rel="stylesheet" href="style.css">
+    <script>
+        // Vérifier si "is_loginf" dans le localStorage est défini sur "true"
+        if (localStorage.getItem('is_loginf') !== 'true') {
+            // Rediriger vers la page de connexion si l'utilisateur n'est pas connecté
+            window.location.href = 'login.php';
+        }
+    </script>
 </head>
 
 <body>

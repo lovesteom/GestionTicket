@@ -2,7 +2,7 @@
 session_start(); // Démarrer la session
 
 // Connexion à la base de données
-$conn = new mysqli('localhost', 'root', '', 'gestion_ticket');
+include './env/data.php'; // Inclure le fichier de connexion à la base de données
 if ($conn->connect_error) {
     die("Erreur de connexion : " . $conn->connect_error);
 }
@@ -16,7 +16,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $password_hashed = password_hash($password, PASSWORD_DEFAULT);
 
     // Vérifier si l'utilisateur existe dans la base de données
-    $stmt = $conn->prepare("SELECT id, name, password FROM users WHERE email = ?");
+    $stmt = $conn->prepare("SELECT id, name, password FROM users_auth WHERE email = ?");
     $stmt->bind_param("s", $email);
     $stmt->execute();
     $stmt->store_result();
@@ -34,7 +34,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $_SESSION['email'] = $email;
 
             // Rediriger vers la page d'accueil ou une autre page
-            header("Location: control.php");
+            //header("Location: control.php");
+
+            // Ajouter un script JavaScript pour enregistrer dans le localStorage
+            echo "<script>
+                localStorage.setItem('is_loginf', 'true');
+                window.location.href = 'control.php';
+            </script>";
+
             exit();
         } else {
             // Mot de passe incorrect
@@ -56,6 +63,13 @@ $conn->close();
     <meta charset="UTF-8">
     <title>Connexion</title>
     <link rel="stylesheet" href="style.css">
+    <script>
+        // Vérifier si "is_loginf" dans le localStorage est défini sur "true"
+        if (localStorage.getItem('is_loginf') === 'true') {
+            // Rediriger vers la page de connexion si l'utilisateur n'est pas connecté
+            window.location.href = 'control.php';
+        }
+    </script>
 </head>
 <body>
     <form method="POST" action="">
